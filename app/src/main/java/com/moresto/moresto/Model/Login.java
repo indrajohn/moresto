@@ -3,6 +3,7 @@ package com.moresto.moresto.Model;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class Login {
 
     @SerializedName("hasil")
@@ -32,10 +33,32 @@ public class Login {
     @SerializedName("tokenid")
     @Expose
     private String tokenid;
+    @SerializedName("msg")
+    @Expose
+    private List<Object> msg = null;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
     public Login() {
     }
-    public Login(boolean hasil, String id, String nama, String namaUsaha, String username, String email, String lastLogin, String lastLogout, String tokenid) {
 
+    /**
+     *
+     * @param id
+     * @param lastLogin
+     * @param username
+     * @param namaUsaha
+     * @param email
+     * @param lastLogout
+     * @param tokenid
+     * @param hasil
+     * @param nama
+     * @param msg
+     */
+    public Login(boolean hasil, String id, String nama, String namaUsaha, String username, String email, String lastLogin, String lastLogout, String tokenid, List<Object> msg) {
+        super();
         this.hasil = hasil;
         this.id = id;
         this.nama = nama;
@@ -45,7 +68,9 @@ public class Login {
         this.lastLogin = lastLogin;
         this.lastLogout = lastLogout;
         this.tokenid = tokenid;
+        this.msg = msg;
     }
+
     public boolean isHasil() {
         return hasil;
     }
@@ -118,4 +143,11 @@ public class Login {
         this.tokenid = tokenid;
     }
 
+    public List<Object> getMsg() {
+        return msg;
+    }
+
+    public void setMsg(List<Object> msg) {
+        this.msg = msg;
+    }
 }

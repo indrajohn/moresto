@@ -1,73 +1,84 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/blue_moresto">
+    android:gravity="center_horizontal"
+    android:padding="50dp"
+    android:background="@drawable/red_moresto"
+    tools:context="com.moresto.moresto.ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/ava_male"
+        />
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtNamaUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
         android:layout_gravity="center"
-        android:textSize="14sp"
         android:textColor="#fff"
-        android:text="Total Transaksi Hari ini"/>
+        android:text="Yoseph Indra John Saputra"/>
 
     <com.moresto.moresto.CustomText.MyCustomText
-        android:id="@+id/txtTotalTransaksiHariIni"
+        android:id="@+id/txtEmailUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
         android:layout_gravity="center"
-        android:textSize="24sp"
         android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="17"/>
-
-    <com.moresto.moresto.CustomText.MyCustomText
-        android:id="@+id/myCustomText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Total Transaksi Bulan ini"
-        android:textColor="#fff"
-        android:textSize="14sp" />
-
-    <com.moresto.moresto.CustomText.MyCustomText
-        android:id="@+id/txtTotalTransaksiBulanIni"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="24sp"
-        android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="35"/>
+        android:text="Indrajohn2@gmail.com"/>
     <com.moresto.moresto.CustomText.MyCustomText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
         android:layout_gravity="center"
-        android:textSize="14sp"
         android:textColor="#fff"
-        android:text="Total Komisi Bulan ini"/>
+        android:text="Telepon"/>
     <com.moresto.moresto.CustomText.MyCustomText
-        android:id="@+id/txtTotalKomisiBulanIni"
+        android:id="@+id/txtTelpUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:layout_gravity="center"
-        android:textSize="24sp"
         android:textColor="#fff"
-        android:paddingBottom="50dp"
-        android:text="Rp. 3.500.000" />
+        android:text="085726830822"/>
     <com.moresto.moresto.CustomText.MyCustomText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
         android:layout_gravity="center"
-        android:textSize="14sp"
         android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="Data 3 transaksi terakhir hari ini"/>
-    <android.support.v7.widget.RecyclerView
+        android:text="Bergabung Sejak"/>
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtBirthdayUserProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rc1">
-
-    </android.support.v7.widget.RecyclerView>
+        android:textColor="#fff"
+        android:text="04 Oktober 1992"/>
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:text="Location"/>
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtLocationUserProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:text="Jl Anyer 4 no 32"/>
 </LinearLayout>

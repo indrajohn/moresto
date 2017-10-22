@@ -1,10 +1,14 @@
 package com.moresto.moresto;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -14,23 +18,47 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.moresto.moresto.Model.Login;
+import com.moresto.moresto.Services.ServiceAPI;
+
+import java.lang.reflect.Type;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     private final static String TAG = "LoginActivity";
+    private boolean pressTwice = false;
     Location mLocation;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    TextView txtLupaPassword;
     EditText txtUsername,txtPassword;
     Button btnLogin;
+    Login myLogin;
+    Type mType;
+    Gson mGson;
+    ProgressDialog mProgressDialog;
+    ServiceAPI mServiceAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +81,104 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
        init();
         LoginClicked();
+        lupaPassword();
+        checkLogin();
     }
-    private void LoginClicked(){
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+    private void lupaPassword(){
+        txtLupaPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                Intent i = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
                 startActivity(i);
             }
         });
     }
+    private void checkLogin(){
+        String login = sharedPreferences.getString("login", "");
+        if(login.isEmpty()){
+            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pressTwice) {
+            finish();
+            System.exit(0);
+        }
+        pressTwice = true;
+        Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pressTwice = false;
+            }
+        }, 2000);
+    }
+
+    private void LoginClicked(){
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.show();
+                String username,password,koordinatX,koordinatY;
+                username = txtUsername.getText().toString();
+                password = txtPassword.getText().toString();
+                koordinatX = String.valueOf(mLocation.getLatitude());
+                koordinatY = String.valueOf(mLocation.getLongitude());
+                mServiceAPI.getAuth(username,password,koordinatX,koordinatY).enqueue(new Callback<Login>() {
+                    @Override
+                    public void onResponse(Call<Login> call, Response<Login> response) {
+                        String json = mGson.toJson(response.body());
+                        myLogin = mGson.fromJson(json, mType);
+                        if(mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                        if(myLogin.isHasil()){
+                           editor= sharedPreferences.edit();
+                            editor.putString("login", json);
+                            editor.putString("koordinatX",String.valueOf(mLocation.getLatitude()));
+                            editor.putString("koordinatY",String.valueOf(mLocation.getLongitude()));
+                            editor.apply();
+                            txtUsername.setText("");
+                            txtPassword.setText("");
+                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(i);
+
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Login> call, Throwable t) {
+                        Log.i(TAG, "onFailure: "+t.toString());
+                    }
+                });
+            }
+        });
+
+    }
     private void init(){
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
-
+        txtLupaPassword = (TextView) findViewById(R.id.txtLupaPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+
+        mProgressDialog =new ProgressDialog(LoginActivity.this);
+        mProgressDialog.setMessage("Please Wait..");
+
+
+        mGson = new Gson();
+        mType = new TypeToken<Login>() {
+        }.getType();
+        mServiceAPI = ServiceAPI.Factory.getInstance(getApplicationContext());
+        sharedPreferences = getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+
     }
 
     @Override
