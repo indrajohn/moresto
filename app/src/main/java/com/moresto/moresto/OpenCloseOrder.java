@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class OpenCloseOrder extends Fragment {
     AlertDialog.Builder builder;
     TextView txtlocationOpenClose;
     AlertDialog dialog;
+    Button btnChangeLocation;
     public OpenCloseOrder() {
         // Required empty public constructor
     }
@@ -66,6 +68,16 @@ public class OpenCloseOrder extends Fragment {
         super.onActivityCreated(savedInstanceState);
         init();
         switchClick();
+        changeLocation();
+    }
+    private void changeLocation(){
+        btnChangeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),MapsActivity.class);
+                startActivity(i);
+            }
+        });
     }
     private void switchClick(){
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -114,6 +126,7 @@ public class OpenCloseOrder extends Fragment {
     }
 
     private void init(){
+        btnChangeLocation = (Button) rootView.findViewById(R.id.btnChangeLocation);
         builder = new AlertDialog.Builder(getActivity());
         sharedPreferences = getContext().getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         mType = new TypeToken<Login>() {

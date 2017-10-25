@@ -2,15 +2,16 @@ package com.moresto.moresto.Adapter;
 
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.moresto.moresto.Model.Dashboard;
+import com.moresto.moresto.Model.ItemOrder;
+import com.moresto.moresto.Model.Order;
 import com.moresto.moresto.R;
 
 import java.util.ArrayList;
@@ -20,11 +21,11 @@ import java.util.ArrayList;
  */
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.OrderListViewHolder> {
     private Context mContext;
-    private ArrayList<Dashboard> mKoridorList;
+    private ArrayList<Order> mOrderList;
 
 
-    public DashboardAdapter(ArrayList<Dashboard> objects) {
-        mKoridorList = objects;
+    public DashboardAdapter(ArrayList<Order> objects) {
+        mOrderList = objects;
     }
 
     @Override
@@ -38,19 +39,17 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Orde
     @Override
     public void onBindViewHolder(final DashboardAdapter.OrderListViewHolder holder, final int position) {
         // holder.mNamaKoridor.setText(mKoridorList.get(position).getNamaKoridor());
-        holder.rcItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-       /* Intent intent = new Intent(mContext,HalteMapsActivity.class);
-        intent.putExtra("idKoridor",mKoridorList.get(position).getId());
-        mContext.startActivity(intent);*/
-            }
-        });
+        holder.txtTujuanOrder.setText(mOrderList.get(position).getDelivery());
+        LinearLayoutManager llm = new LinearLayoutManager(mContext);
+        holder.rcItem.setLayoutManager(llm);
+        holder.rcItem.setHasFixedSize(true);
+        ItemOrderAdapter adapter = new ItemOrderAdapter((ArrayList<ItemOrder>) mOrderList.get(position).getOrder());
+        holder.rcItem.setAdapter(adapter);
     }
 
     @Override
     public int getItemCount() {
-        return mKoridorList.size();
+        return mOrderList.size();
     }
 
     public static class OrderListViewHolder extends RecyclerView.ViewHolder {
@@ -59,7 +58,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Orde
 
         OrderListViewHolder(View itemView) {
             super(itemView);
-            rcItem = (RecyclerView) itemView.findViewById(R.id.rcItem);
+            rcItem = (RecyclerView) itemView.findViewById(R.id.rcItemList);
             txtTujuanOrder = (TextView) itemView.findViewById(R.id.txtTujuanOrder);
         }
     }

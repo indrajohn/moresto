@@ -1,8 +1,10 @@
 package com.moresto.moresto;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +28,8 @@ import com.moresto.moresto.Services.ServiceAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 import retrofit2.Call;
@@ -71,6 +75,38 @@ public class MainActivity extends AppCompatActivity
         loginPreference =  mGson.fromJson(login, mType);
         navigationView.getMenu().findItem(R.id.nav_dashboard).setChecked(true);
     }
+    /*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       // SendLoagcatMail();
+    }*/
+    public void SendLoagcatMail(){
+
+        // save logcat in file
+        File outputFile = new File(Environment.getExternalStorageDirectory(),
+                "logcat.txt");
+        try {
+            Runtime.getRuntime().exec(
+                    "logcat -f " + outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //send file using email
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // Set type to "email"
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        String to[] = {"indrajohn2@gmail.com"};
+        emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+        // the attachment
+        emailIntent .putExtra(Intent.EXTRA_STREAM, outputFile.getAbsolutePath());
+        // the mail subject
+        emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        startActivity(Intent.createChooser(emailIntent , "Send email..."));
+    }
+
 
     private void ChangeLayout(Fragment fragment){
         FragmentTransaction fragmentTransaction =
@@ -89,6 +125,14 @@ public class MainActivity extends AppCompatActivity
     private void ChangeLayoutMain(){
         MainFragment mMainFragment = new MainFragment();
         ChangeLayout(mMainFragment);
+    }
+    private void ChangeLayoutIncomingOrder(){
+        IncomingOrder mIncomingOrderFragment= new IncomingOrder();
+        ChangeLayout(mIncomingOrderFragment);
+    }
+    private void ChangeLayoutTransaksiList(){
+        TransactionListFragment mTransactionListFragment = new TransactionListFragment();
+        ChangeLayout(mTransactionListFragment);
     }
     @Override
     public void onBackPressed() {
@@ -177,6 +221,12 @@ public class MainActivity extends AppCompatActivity
         }
         else if( id == R.id.nav_dashboard){
             ChangeLayoutMain();
+        }
+        else if( id == R.id.nav_incoming_order){
+            ChangeLayoutIncomingOrder();
+        }
+        else if( id == R.id.nav_transaksi_list){
+            ChangeLayoutTransaksiList();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

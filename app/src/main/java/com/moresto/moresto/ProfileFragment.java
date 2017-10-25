@@ -86,34 +86,43 @@ public class ProfileFragment extends Fragment {
     private void getDataProfile(){
         String login = sharedPreferences.getString("login", "");
         loginPreference =  mGson.fromJson(login, mType);
-        mServiceAPI.getProfile(loginPreference.getTokenid()).enqueue(new Callback<Profile>() {
+        mServiceAPI.getProfile(loginPreference.getTokenid()).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 String json = mGson.toJson(response.body());
-                mProfile = mGson.fromJson(json, mTypeProfile);
+                try{
+                    Log.i(TAG, "onResponse: data: "+json);
+                    JSONObject mObject = new JSONObject(json);
+                    if(mObject.get("hasil").toString().equals("true")){
+                        String data = mObject.get("data").toString();
+                        mProfile = mGson.fromJson(data, mTypeProfile);
 
-                if(mProfile.isHasil()){
-                    txtNamaUserProfile.setText(mProfile.getData().getNama());
-                    txtEmailUserProfile.setText(mProfile.getData().getEmail());
-                    txtTelpUserProfile.setText(mProfile.getData().getNoHp());
-                    txtBirthdayUserProfile.setText(mProfile.getData().getBergabungsejak());
-                    txtLocationUserProfile.setText(mProfile.getData().getLokasi());
-                    if (!ImageLoader.getInstance().isInited()) {
-                        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                                .cacheInMemory(true)
-                                .cacheOnDisk(true)
-                                .build();
-                        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
-                                .defaultDisplayImageOptions(defaultOptions)
-                                .build();
-                        ImageLoader.getInstance().init(config);
+                        txtNamaUserProfile.setText(mProfile.getNama());
+                        txtEmailUserProfile.setText(mProfile.getEmail());
+                        txtTelpUserProfile.setText(mProfile.getNoHp());
+                        txtBirthdayUserProfile.setText(mProfile.getBergabungsejak());
+                        txtLocationUserProfile.setText(mProfile.getLokasi());
+                        if (!ImageLoader.getInstance().isInited()) {
+                            DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                                    .cacheInMemory(true)
+                                    .cacheOnDisk(true)
+                                    .build();
+                            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
+                                    .defaultDisplayImageOptions(defaultOptions)
+                                    .build();
+                            ImageLoader.getInstance().init(config);
+                        }
+                        ImageLoader.getInstance().displayImage(mProfile.getGambar(), mImage);
                     }
-                    ImageLoader.getInstance().displayImage(mProfile.getData().getGambar(), mImage);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 Log.i(TAG, "onFailure: "+t.toString());
             }
         });

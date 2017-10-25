@@ -15,8 +15,12 @@
             android:id="@+id/nav_formb"
             android:title="Form B" />
         <item
-            android:id="@+id/nav_transaksi"
-            android:title="Transaksi" />
+            android:id="@+id/nav_incoming_order"
+            android:title="Incoming Order" />
+
+        <item android:id="@+id/nav_transaksi_list"
+            android:title="Transaction List" />
+
         <item
             android:id="@+id/nav_help"
             android:title="Help" />

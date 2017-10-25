@@ -4,19 +4,29 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 public class Order {
-    @SerializedName("order")
-    @Expose
-    private List<ItemOrder> itemOrder = null;
     @SerializedName("delivery")
     @Expose
     private String delivery;
+    @SerializedName("order")
+    @Expose
+    private List<ItemOrder> order = null;
 
-    public List<ItemOrder> getOrder() {
-        return itemOrder;
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Order() {
     }
 
-    public void setOrder(List<ItemOrder> order) {
-        this.itemOrder = order;
+    /**
+     *
+     * @param order
+     * @param delivery
+     */
+    public Order(String delivery, List<ItemOrder> order) {
+        super();
+        this.delivery = delivery;
+        this.order = order;
     }
 
     public String getDelivery() {
@@ -27,5 +37,12 @@ public class Order {
         this.delivery = delivery;
     }
 
+    public List<ItemOrder> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<ItemOrder> order) {
+        this.order = order;
+    }
 
 }

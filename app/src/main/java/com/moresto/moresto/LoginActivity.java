@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +34,8 @@ import com.google.gson.reflect.TypeToken;
 import com.moresto.moresto.Model.Login;
 import com.moresto.moresto.Services.ServiceAPI;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
@@ -95,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
     private void checkLogin(){
         String login = sharedPreferences.getString("login", "");
-        if(login.isEmpty()){
+        if(!login.isEmpty()){
             Intent i = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(i);
         }
@@ -104,8 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onBackPressed() {
         if (pressTwice) {
-            finish();
-            System.exit(0);
+            finishAffinity();
         }
         pressTwice = true;
         Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
@@ -118,47 +120,83 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         }, 2000);
     }
+    public void SendLoagcatMail(){
+
+        // save logcat in file
+        File outputFile = new File(Environment.getExternalStorageDirectory(),
+                "logcat.txt");
+        try {
+            Runtime.getRuntime().exec(
+                    "logcat -f " + outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //send file using email
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // Set type to "email"
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        String to[] = {"indrajohn2@gmail.com"};
+        emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+        // the attachment
+        emailIntent .putExtra(Intent.EXTRA_STREAM, outputFile.getAbsolutePath());
+        // the mail subject
+        emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        startActivity(Intent.createChooser(emailIntent , "Send email..."));
+    }
+/*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SendLoagcatMail();
+    }*/
 
     private void LoginClicked(){
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressDialog.show();
+
                 String username,password,koordinatX,koordinatY;
                 username = txtUsername.getText().toString();
                 password = txtPassword.getText().toString();
-                koordinatX = String.valueOf(mLocation.getLatitude());
-                koordinatY = String.valueOf(mLocation.getLongitude());
-                mServiceAPI.getAuth(username,password,koordinatX,koordinatY).enqueue(new Callback<Login>() {
-                    @Override
-                    public void onResponse(Call<Login> call, Response<Login> response) {
-                        String json = mGson.toJson(response.body());
-                        myLogin = mGson.fromJson(json, mType);
-                        if(mProgressDialog.isShowing()) {
-                            mProgressDialog.dismiss();
-                        }
-                        if(myLogin.isHasil()){
-                           editor= sharedPreferences.edit();
-                            editor.putString("login", json);
-                            editor.putString("koordinatX",String.valueOf(mLocation.getLatitude()));
-                            editor.putString("koordinatY",String.valueOf(mLocation.getLongitude()));
-                            editor.apply();
-                            txtUsername.setText("");
-                            txtPassword.setText("");
-                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(i);
+                if(!username.isEmpty() && !password.isEmpty()) {
+                    mProgressDialog.show();
+                    koordinatX = String.valueOf(mLocation.getLatitude());
+                    koordinatY = String.valueOf(mLocation.getLongitude());
+                    mServiceAPI.getAuth(username, password, koordinatX, koordinatY).enqueue(new Callback<Login>() {
+                        @Override
+                        public void onResponse(Call<Login> call, Response<Login> response) {
+                            String json = mGson.toJson(response.body());
+                            myLogin = mGson.fromJson(json, mType);
+                            if (mProgressDialog.isShowing()) {
+                                mProgressDialog.dismiss();
+                            }
+                            if (myLogin.isHasil()) {
+                                editor = sharedPreferences.edit();
+                                editor.putString("login", json);
+                                editor.putString("koordinatX", String.valueOf(mLocation.getLatitude()));
+                                editor.putString("koordinatY", String.valueOf(mLocation.getLongitude()));
+                                editor.apply();
+                                txtUsername.setText("");
+                                txtPassword.setText("");
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
 
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Login> call, Throwable t) {
-                        Log.i(TAG, "onFailure: "+t.toString());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<Login> call, Throwable t) {
+                            Log.i(TAG, "onFailure: " + t.toString());
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

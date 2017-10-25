@@ -6,23 +6,28 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.moresto.moresto.Adapter.DashboardAdapter;
 import com.moresto.moresto.Model.Dashboard;
 import com.moresto.moresto.Model.Login;
+import com.moresto.moresto.Model.Order;
 import com.moresto.moresto.Services.ServiceAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +47,7 @@ public class MainFragment extends Fragment {
     ServiceAPI mServiceAPI;
     Login loginPreference;
     SharedPreferences sharedPreferences;
+    Dashboard mDashboard;
 
 
     public MainFragment() {
@@ -68,7 +74,8 @@ public class MainFragment extends Fragment {
         txtTotalTransaksiHariIni = (TextView) rootView.findViewById(R.id.txtTotalTransaksiHariIni);
 
         rc1 = (RecyclerView) rootView.findViewById(R.id.rc1);
-
+        mType = new TypeToken<Login>() {
+        }.getType();
         mTypeDashBoard = new TypeToken<Dashboard>() {
         }.getType();
         mGson = new Gson();
@@ -81,12 +88,21 @@ public class MainFragment extends Fragment {
         mServiceAPI.getDashboard(loginPreference.getTokenid()).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                Log.i(TAG, "onResponse: "+response.body().toString());
-                String mResponse = mGson.toJson(response.body());
+                String json = mGson.toJson(response.body());
                 try {
-                    JSONObject myObject = new JSONObject(mResponse);
-                    if(myObject.get("hasil").toString().equals("true")){
-                        Log.i(TAG, "onResponse: "+myObject.get("data").toString());
+                    JSONObject mObject = new JSONObject(json);
+                    if(mObject.get("hasil").toString().equals("true")){
+                        String data = mObject.get("data").toString();
+                        mDashboard = mGson.fromJson(data, mTypeDashBoard);
+                        txtTotalKomisiBulanIni.setText(mDashboard.getTotalkomisibulanini());
+                        txtTotalTransaksiBulanIni.setText(mDashboard.getTotaltransaksibulanini());
+                        txtTotalTransaksiHariIni.setText(mDashboard.getTotaltransaksihariini());
+
+                        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                        rc1.setLayoutManager(llm);
+                        rc1.setHasFixedSize(true);
+                        DashboardAdapter adapter = new DashboardAdapter((ArrayList<Order>) mDashboard.get3transaksiterbaruhariini());
+                        rc1.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -52,7 +52,7 @@ public interface ServiceAPI {
 
     @FormUrlEncoded
     @POST("profile.php")
-    Call<Profile> getProfile(@Field("tokenid") String tokenid);
+    Call<Object> getProfile(@Field("tokenid") String tokenid);
 
 
     class Factory {

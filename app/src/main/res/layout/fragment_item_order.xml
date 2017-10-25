@@ -1,22 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="20dp"
     android:orientation="horizontal">
-    <TextView
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtNamaItemList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtNamaItem"
-        android:text="Nasi"/>
+        android:text="Nasi Kuning" />
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1">
     </View>
-    <TextView
-        android:id="@+id/txtJumlahItem"
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtJumlahItemList"
+        android:layout_marginEnd="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"/>
+        android:text="1" />
 
 </LinearLayout>

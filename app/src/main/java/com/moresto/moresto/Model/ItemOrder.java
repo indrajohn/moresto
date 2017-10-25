@@ -1,47 +1,59 @@
 package com.moresto.moresto.Model;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 public class ItemOrder {
-    @SerializedName("0")
+    @SerializedName("nmproduk")
     @Expose
-    private String id;
-    @SerializedName("1")
+    private String nmproduk;
+    @SerializedName("no")
     @Expose
-    private String namaItem;
-    @SerializedName("2")
+    private String no;
+    @SerializedName("jumlah")
     @Expose
-    private String jumlahItem;
+    private String jumlah;
 
-    public ItemOrder(String id,String namaItem,String jumlahItem) {
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public ItemOrder() {
+    }
+
+    /**
+     *
+     * @param nmproduk
+     * @param no
+     * @param jumlah
+     */
+    public ItemOrder(String nmproduk, String no, String jumlah) {
         super();
-        this.id = id;
-        this.namaItem = namaItem;
-        this.jumlahItem = jumlahItem;
+        this.nmproduk = nmproduk;
+        this.no = no;
+        this.jumlah = jumlah;
     }
 
-    public String getId() {
-        return id;
+    public String getNmproduk() {
+        return nmproduk;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNmproduk(String nmproduk) {
+        this.nmproduk = nmproduk;
     }
 
-    public String getNamaItem() {
-        return namaItem;
+    public String getNo() {
+        return no;
     }
 
-    public void setNamaItem(String namaItem) {
-        this.namaItem = namaItem;
+    public void setNo(String no) {
+        this.no = no;
     }
 
-    public String getJumlahItem() {
-        return jumlahItem;
+    public String getJumlah() {
+        return jumlah;
     }
 
-    public void setJumlahItem(String jumlahItem) {
-        this.jumlahItem = jumlahItem;
+    public void setJumlah(String jumlah) {
+        this.jumlah = jumlah;
     }
 }
