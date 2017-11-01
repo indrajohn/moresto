@@ -37,18 +37,38 @@
         android:textSize="18sp"
         android:textColor="#fff"
         android:text="Jln Keramat Raya No. 43 Jakarta Pusat"/>
-    <Switch
-        android:id="@+id/switchOpenClose"
-        android:layout_width="250dip"
-        android:layout_height="10dp"
-        android:layout_marginTop="50dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:maxHeight="10dp"
-        android:minWidth="100dp"
-        android:switchMinWidth="250dip"
-        android:textOff="Close"
-        android:textOn="Open"
-        android:thumbTextPadding="25dp" />
+        android:layout_marginTop="50dp">
+       <com.moresto.moresto.CustomText.MyCustomText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+           android:textColor="#fff"
+           android:textSize="14sp"
+            android:layout_marginEnd="30dp"/>
+        <Switch
+            android:id="@+id/switchOpenClose"
+            android:layout_width="200dip"
+            android:layout_height="10dp"
+            android:maxHeight="10dp"
+            android:minWidth="100dp"
+            android:switchMinWidth="200dip"
+            android:textOff="Close"
+            android:textOn="Open"
+            android:thumbTextPadding="25dp" />
+        <com.moresto.moresto.CustomText.MyCustomText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_marginStart="30dp"
+            android:text="Open"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"

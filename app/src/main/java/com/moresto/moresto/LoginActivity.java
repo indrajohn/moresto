@@ -33,27 +33,28 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.moresto.moresto.Model.Login;
 import com.moresto.moresto.Services.ServiceAPI;
+import com.moresto.moresto.locationService.LocationHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
+public class LoginActivity extends AppCompatActivity implements ConnectionCallbacks,
+        OnConnectionFailedListener,ActivityCompat.OnRequestPermissionsResultCallback {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private final static String TAG = "LoginActivity";
     private boolean pressTwice = false;
     Location mLocation;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
     TextView txtLupaPassword;
     EditText txtUsername,txtPassword;
     Button btnLogin;
@@ -62,31 +63,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     Gson mGson;
     ProgressDialog mProgressDialog;
     ServiceAPI mServiceAPI;
-
+    LocationHelper mLocationHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000);
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-
        init();
         LoginClicked();
         lupaPassword();
         checkLogin();
+        mLocationHelper=new LocationHelper(LoginActivity.this);
+        mLocationHelper.checkpermission();
+        // check availability of play services
+        if (mLocationHelper.checkPlayServices()) {
+
+            // Building the GoogleApi client
+            mLocationHelper.buildGoogleApiClient();
+        }
+        Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
     }
+
     private void lupaPassword(){
         txtLupaPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,49 +152,56 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
+                    Log.i(TAG, "onCreate:1 "+mLocation.getLongitude());
+                    mLocation=mLocationHelper.getLocation();
+                    String username, password, koordinatX, koordinatY;
+                    username = txtUsername.getText().toString();
+                    password = txtPassword.getText().toString();
+                    if (!username.isEmpty() && !password.isEmpty()) {
+                        mProgressDialog.show();
+                        koordinatX = String.valueOf(mLocation.getLatitude());
+                        koordinatY = String.valueOf(mLocation.getLongitude());
+                        mServiceAPI.getAuth(username, password, koordinatX, koordinatY).enqueue(new Callback<Login>() {
+                            @Override
+                            public void onResponse(Call<Login> call, Response<Login> response) {
+                                String json = mGson.toJson(response.body());
+                                myLogin = mGson.fromJson(json, mType);
+                                if (mProgressDialog.isShowing()) {
+                                    mProgressDialog.dismiss();
+                                }
+                                if (myLogin.isHasil()) {
+                                    editor = sharedPreferences.edit();
+                                    editor.putString("login", json);
+                                    editor.putString("koordinatX", String.valueOf(mLocation.getLatitude()));
+                                    editor.putString("koordinatY", String.valueOf(mLocation.getLongitude()));
+                                    editor.apply();
+                                    txtUsername.setText("");
+                                    txtPassword.setText("");
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
 
-                String username,password,koordinatX,koordinatY;
-                username = txtUsername.getText().toString();
-                password = txtPassword.getText().toString();
-                if(!username.isEmpty() && !password.isEmpty()) {
-                    mProgressDialog.show();
-                    koordinatX = String.valueOf(mLocation.getLatitude());
-                    koordinatY = String.valueOf(mLocation.getLongitude());
-                    mServiceAPI.getAuth(username, password, koordinatX, koordinatY).enqueue(new Callback<Login>() {
-                        @Override
-                        public void onResponse(Call<Login> call, Response<Login> response) {
-                            String json = mGson.toJson(response.body());
-                            myLogin = mGson.fromJson(json, mType);
-                            if (mProgressDialog.isShowing()) {
-                                mProgressDialog.dismiss();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            if (myLogin.isHasil()) {
-                                editor = sharedPreferences.edit();
-                                editor.putString("login", json);
-                                editor.putString("koordinatX", String.valueOf(mLocation.getLatitude()));
-                                editor.putString("koordinatY", String.valueOf(mLocation.getLongitude()));
-                                editor.apply();
-                                txtUsername.setText("");
-                                txtPassword.setText("");
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
 
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Call<Login> call, Throwable t) {
+                                Log.i(TAG, "onFailure: " + t.toString());
                             }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Login> call, Throwable t) {
-                            Log.i(TAG, "onFailure: " + t.toString());
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
+
         });
+
 
     }
     private void init(){
@@ -222,72 +225,45 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
-    }
+        mLocationHelper.checkPlayServices();
+        mLocationHelper=new LocationHelper(LoginActivity.this);
+        mLocationHelper.checkpermission();
+        // check availability of play services
+        if (mLocationHelper.checkPlayServices()) {
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            mGoogleApiClient.disconnect();
+            // Building the GoogleApi client
+            mLocationHelper.buildGoogleApiClient();
         }
     }
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLocation == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
+        mLocation=mLocationHelper.getLocation();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mLocationHelper.connectApiClient();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-/*
-         * Google Play services can resolve some errors it detects.
-         * If the error has a resolution, try sending an Intent to
-         * start a Google Play services activity that can resolve
-         * error.
-         */
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-                 * PendingIntent
-                 */
-            } catch (IntentSender.SendIntentException e) {
-                // Log the error
-                e.printStackTrace();
-            }
-        } else {
-            /*
-             * If no resolution is available, display a dialog to the
-             * user with the error.
-             */
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
-        }
+        Log.i("Connection failed:", " ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mLocation = location;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mLocationHelper.onActivityResult(requestCode,resultCode,data);
+    }
+    // Permission check functions
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        // redirects to utils
+        mLocationHelper.onRequestPermissionsResult(requestCode,permissions,grantResults);
+
     }
 }

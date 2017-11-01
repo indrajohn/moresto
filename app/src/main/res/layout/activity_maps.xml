@@ -3,29 +3,47 @@
     android:layout_height="match_parent">
 
     <fragment
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:id="@+id/linearLayout2">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/marker_icon"
+            android:layout_marginEnd="20dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/marker"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/marker_icon"/>
+        android:src="@drawable/marker_icon" />
 
     <Button
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:background="@color/com_facebook_blue"
         android:text="Set Destination"
-        android:textStyle="bold"
-        android:textSize="14sp"
         android:textColor="#fff"
-        android:layout_above="@+id/marker"
-        android:background="@color/com_facebook_blue"/>
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
 

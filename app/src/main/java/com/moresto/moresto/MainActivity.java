@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity
         TransactionListFragment mTransactionListFragment = new TransactionListFragment();
         ChangeLayout(mTransactionListFragment);
     }
+    private void ChangeLayoutTableTransaksi(){
+        TableTransaksiFragment mTable = new TableTransaksiFragment();
+        ChangeLayout(mTable);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -227,6 +231,9 @@ public class MainActivity extends AppCompatActivity
         }
         else if( id == R.id.nav_transaksi_list){
             ChangeLayoutTransaksiList();
+        }
+        else if(id == R.id.nav_formb){
+            //ChangeLayoutTableTransaksi();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
