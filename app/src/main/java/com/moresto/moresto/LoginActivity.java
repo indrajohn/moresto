@@ -153,9 +153,9 @@ public class LoginActivity extends AppCompatActivity implements ConnectionCallba
             @Override
             public void onClick(View v) {
                 try {
+                    mLocation=mLocationHelper.getLocation();
                     Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
                     Log.i(TAG, "onCreate:1 "+mLocation.getLongitude());
-                    mLocation=mLocationHelper.getLocation();
                     String username, password, koordinatX, koordinatY;
                     username = txtUsername.getText().toString();
                     password = txtPassword.getText().toString();
@@ -196,7 +196,13 @@ public class LoginActivity extends AppCompatActivity implements ConnectionCallba
                         Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if(e.toString().contains("longitude"))
+                    {
+                        Toast.makeText(LoginActivity.this, "Tidak dapat menemukan lokasi anda..\n Coba lagi", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        e.printStackTrace();
+                    }
                 }
             }
 
