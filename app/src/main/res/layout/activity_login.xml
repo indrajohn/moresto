@@ -1,71 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/red_moresto"
-    tools:context="com.moresto.moresto.LoginActivity">
+    android:orientation="vertical"
+    tools:context="com.moresto.moresto.LoginActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/logo_putih"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="20dp"
-        android:src="@drawable/logo_putih"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Email Address:"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="254dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:background="#d78c93"
+        android:ems="20"
+        android:inputType="textEmailAddress"
+        android:textColorHighlight="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText5" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText6"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="Password:"
+        android:textColor="#fff"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtUsername" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="254dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:background="#d78c93"
+        android:inputType="textPassword"
+        android:textColorHighlight="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText6" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/login_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtLupaPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:text="Forget Password"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="1">
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:text="Email Address:"
-            android:textColor="#fff" />
+        app:layout_constraintGuide_begin="269dp" />
 
-        <EditText
-            android:id="@+id/txtUsername"
-            android:layout_width="258dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="#d78c93"
-            android:ems="20"
-            android:inputType="textPersonName" />
-
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:text="Password:"
-            android:textColor="#fff" />
-
-        <EditText
-            android:id="@+id/txtPassword"
-            android:layout_width="253dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="100dp"
-            android:layout_weight="0.13"
-            android:background="#d78c93"
-            android:ems="20"
-            android:inputType="textPassword" />
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="227dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/login_button" />
-
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:id="@+id/txtLupaPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="Forget Password"
-            android:textColor="#fff" />
-    </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

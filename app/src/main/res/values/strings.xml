@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MorestoPartner</string>
+    <string name="app_name">Moresto Partner</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,4 +17,7 @@
         <item>tes5__tes5__tes5__tes5</item>
         <item>tes6__tes6__tes6__tes6</item>
     </string-array>
+
+    <string name="FCM_PREF">com.moresto.moresto.fcm_pref</string>
+    <string name="FCM_TOKEN">com.moresto.moresto.fcm_pref</string>
 </resources>

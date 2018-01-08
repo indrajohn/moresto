@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -127,7 +129,6 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback{
         return null;
 
     }
-
     public Address getAddress(double latitude,double longitude)
     {
         Geocoder geocoder;
@@ -145,7 +146,24 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback{
         return null;
 
     }
+    public Address getLocationByAddress(String adressName)
+    {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(context, Locale.getDefault());
 
+        try {
+           // addresses = geocoder.getFromLocation(latitude,longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = geocoder.getFromLocationName(adressName,1);
+            return addresses.get(0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
 
     /**
      * Method used to build GoogleApiClient
@@ -274,6 +292,19 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback{
     {
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
+    public boolean isNetworkConnected(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        return cm.getActiveNetworkInfo() != null;
+    }
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+            return !ipAddr.equals("");
 
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
 }

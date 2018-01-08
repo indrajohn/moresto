@@ -8,15 +8,19 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -80,7 +84,16 @@ public class LoginActivity extends AppCompatActivity implements ConnectionCallba
             // Building the GoogleApi client
             mLocationHelper.buildGoogleApiClient();
         }
-        Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
+        //ChangeStatusBarColor();
+    }
+    private void ChangeStatusBarColor(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this
+                    ,R.color.colorPrimary));
+        }
     }
 
     private void lupaPassword(){
@@ -154,46 +167,61 @@ public class LoginActivity extends AppCompatActivity implements ConnectionCallba
             public void onClick(View v) {
                 try {
                     mLocation=mLocationHelper.getLocation();
-                    Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
-                    Log.i(TAG, "onCreate:1 "+mLocation.getLongitude());
-                    String username, password, koordinatX, koordinatY;
+                //    Log.i(TAG, "onCreate: "+mLocationHelper.getLocation());
+                  //  Log.i(TAG, "onCreate:1 "+mLocation.getLongitude());
+                    final String username, password, koordinatX, koordinatY;
                     username = txtUsername.getText().toString();
                     password = txtPassword.getText().toString();
-                    if (!username.isEmpty() && !password.isEmpty()) {
-                        mProgressDialog.show();
-                        koordinatX = String.valueOf(mLocation.getLatitude());
-                        koordinatY = String.valueOf(mLocation.getLongitude());
-                        mServiceAPI.getAuth(username, password, koordinatX, koordinatY).enqueue(new Callback<Login>() {
-                            @Override
-                            public void onResponse(Call<Login> call, Response<Login> response) {
-                                String json = mGson.toJson(response.body());
-                                myLogin = mGson.fromJson(json, mType);
-                                if (mProgressDialog.isShowing()) {
-                                    mProgressDialog.dismiss();
-                                }
-                                if (myLogin.isHasil()) {
-                                    editor = sharedPreferences.edit();
-                                    editor.putString("login", json);
-                                    editor.putString("koordinatX", String.valueOf(mLocation.getLatitude()));
-                                    editor.putString("koordinatY", String.valueOf(mLocation.getLongitude()));
-                                    editor.apply();
-                                    txtUsername.setText("");
-                                    txtPassword.setText("");
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(i);
+                    if(mLocationHelper.isInternetAvailable()||mLocationHelper.isNetworkConnected(LoginActivity.this)) {
+                        if (!username.isEmpty() && !password.isEmpty()) {
+                            mProgressDialog.show();
+                            //final String myKoordinatX = "-6.1231511";
+                            //final String myKoordinatY = "10.00123131";
+                            koordinatX = String.valueOf(mLocation.getLatitude());
+                            koordinatY = String.valueOf(mLocation.getLongitude());
+                            mServiceAPI.getAuth(username, password, koordinatX, koordinatY).enqueue(new Callback<Login>() {
+                            //mServiceAPI.getAuth(username, password, myKoordinatX, myKoordinatY).enqueue(new Callback<Login>() {
+                                @Override
+                                public void onResponse(Call<Login> call, Response<Login> response) {
+                                    String json = mGson.toJson(response.body());
+                                    myLogin = mGson.fromJson(json, mType);
+                                    if (mProgressDialog.isShowing()) {
+                                        mProgressDialog.dismiss();
+                                    }
+                                    if (myLogin.isHasil()) {
+                                        editor = sharedPreferences.edit();
+                                        editor.putString("login", json);
+                                      //  editor.putString("koordinatX", String.valueOf(mLocation.getLatitude()));
+                                        editor.putString("koordinatX",koordinatX);
+                                        //editor.putString("koordinatX",myKoordinatX);
 
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                                        // editor.putString("koordinatY", String.valueOf(mLocation.getLongitude()));
+                                        editor.putString("koordinatY", koordinatY);
+                                        //editor.putString("koordinatY", myKoordinatY);
 
-                            @Override
-                            public void onFailure(Call<Login> call, Throwable t) {
-                                Log.i(TAG, "onFailure: " + t.toString());
-                            }
-                        });
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+
+                                        editor.apply();
+                                        txtUsername.setText("");
+                                        txtPassword.setText("");
+                                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(i);
+
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Login> call, Throwable t) {
+                                    Log.i(TAG, "onFailure: " + t.toString());
+                                }
+                            });
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Username atau Password Salah", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(LoginActivity.this, "Koneksi Tidak Tersedia", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     if(e.toString().contains("longitude"))

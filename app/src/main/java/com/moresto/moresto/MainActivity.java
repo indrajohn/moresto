@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -15,31 +16,38 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.moresto.moresto.Adapter.MyExpandableListAdapter;
 import com.moresto.moresto.Model.Dashboard;
 import com.moresto.moresto.Model.Login;
 import com.moresto.moresto.Services.ServiceAPI;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.moresto.moresto.OpenCloseOrderFragment.txtlocationOpenClose;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
     private boolean pressTwice = false;
+    public static String address = "";
     ServiceAPI mServiceAPI;
     Gson mGson;
     Type mType;
@@ -54,8 +62,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,7 +84,107 @@ public class MainActivity extends AppCompatActivity
         String login = sharedPreferences.getString("login", "");
         loginPreference =  mGson.fromJson(login, mType);
         navigationView.getMenu().findItem(R.id.nav_dashboard).setChecked(true);
+        //enableExpandableList();
     }
+    private void prepareListData(List<String> listDataHeader, Map<String,
+                List<String>> listDataChild) {
+
+
+        // Adding child data
+        listDataHeader.add("Product1");
+        listDataHeader.add("product2");
+        listDataHeader.add("Product3");
+
+        // Adding child data
+        List<String> top = new ArrayList<String>();
+       // top.add("x1");
+        //top.add("x2");
+        //top.add("x3");
+        //top.add("x4");
+        //top.add("x5");
+
+
+        List<String> mid = new ArrayList<String>();
+     //   mid.add("y1");
+       // mid.add("y2");
+        //mid.add("y3");
+
+        List<String> bottom = new ArrayList<String>();
+        bottom.add("z1");
+        bottom.add("z2");
+        bottom.add("z3");
+
+
+
+        listDataChild.put(listDataHeader.get(0), top); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), mid);
+        listDataChild.put(listDataHeader.get(2), bottom);
+    }
+   /* private void enableExpandableList() {
+        final ArrayList<String> listDataHeader = new ArrayList<String>();
+        final HashMap<String, List<String>> listDataChild = new HashMap<String, List<String>>();
+        ExpandableListView expListView = (ExpandableListView) findViewById(R.id.left_drawer);
+        prepareListData(listDataHeader, listDataChild);
+        MyExpandableListAdapter listAdapter = new MyExpandableListAdapter(this, listDataHeader, listDataChild);
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                 Toast.makeText(getApplicationContext(),
+                 "Group Clicked " + listDataHeader.get(groupPosition),
+                 Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        // Listview Group expanded listener
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listDataHeader.get(groupPosition) + " Expanded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Listview Group collasped listener
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listDataHeader.get(groupPosition) + " Collapsed",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                // Temporary code:
+
+                // till here
+                Toast.makeText(
+                        getApplicationContext(),
+                        listDataHeader.get(groupPosition)
+                                + " : "
+                                + listDataChild.get(
+                                listDataHeader.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT)
+                        .show();
+                return false;
+            }
+        });
+    }*/
     /*
     @Override
     protected void onDestroy() {
@@ -119,24 +229,20 @@ public class MainActivity extends AppCompatActivity
         ChangeLayout(profileFragment);
     }
     private void ChangeLayoutOpenCloseOrder(){
-        OpenCloseOrder openCloseOrder = new OpenCloseOrder();
-        ChangeLayout(openCloseOrder);
+        OpenCloseOrderFragment openCloseOrderFragment = new OpenCloseOrderFragment();
+        ChangeLayout(openCloseOrderFragment);
     }
     private void ChangeLayoutMain(){
         MainFragment mMainFragment = new MainFragment();
         ChangeLayout(mMainFragment);
     }
     private void ChangeLayoutIncomingOrder(){
-        IncomingOrder mIncomingOrderFragment= new IncomingOrder();
+        IncomingOrderListFragment mIncomingOrderFragment= new IncomingOrderListFragment();
         ChangeLayout(mIncomingOrderFragment);
     }
     private void ChangeLayoutTransaksiList(){
         TransactionListFragment mTransactionListFragment = new TransactionListFragment();
         ChangeLayout(mTransactionListFragment);
-    }
-    private void ChangeLayoutTableTransaksi(){
-        TableTransaksiFragment mTable = new TableTransaksiFragment();
-        ChangeLayout(mTable);
     }
     @Override
     public void onBackPressed() {
@@ -150,8 +256,9 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 if (pressTwice) {
-                    finish();
-                    System.exit(0);
+                    //finish();
+                    //System.exit(0);
+                    finishAffinity();
                 }
                 pressTwice = true;
                 Toast.makeText(this, "Press Back Again to Exit", Toast.LENGTH_SHORT).show();
@@ -194,21 +301,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -233,10 +325,32 @@ public class MainActivity extends AppCompatActivity
             ChangeLayoutTransaksiList();
         }
         else if(id == R.id.nav_formb){
-            //ChangeLayoutTableTransaksi();
+            FormBFragment fragment= new FormBFragment();
+            ChangeLayout(fragment);
+        }
+        else if(id==R.id.nav_help){
+            HelpFragment fragment = new HelpFragment();
+            ChangeLayout(fragment);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: "+resultCode+","+requestCode+","+data);
+
+        if(resultCode == RESULT_OK && requestCode==2404) {
+            if(data != null) {
+                try {
+                    address = data.getStringExtra("address");
+                    txtlocationOpenClose.setText(address);
+                }catch (Exception e)
+                {
+                    Toast.makeText(this, "onActivityResulterror:"+e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }

@@ -1,163 +1,209 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="32dp"
     android:background="@drawable/red_moresto"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/linearLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="No Order"
         android:textColor="#fff"
-        android:text="No Order"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="32sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1022"
         android:textColor="#fff"
-        android:text="1022"/>
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText7" />
 
-    <LinearLayout
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/textView1231"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="vertical">
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Order"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOrder" />
 
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:paddingBottom="5dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="Order"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginBottom="5dp"
-            android:background="#e6e6e6"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="Nasi Kuning"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="Mie Rebus"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="Ketoprak"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <com.moresto.moresto.CustomText.MyCustomText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#fff"
-                android:text="1"/>
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="#e6e6e6"/>
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:paddingBottom="5dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="Deliver to"/>
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="#e6e6e6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1231">
 
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:layout_marginStart="20dp"
-            android:paddingBottom="5dp"
-            android:text="Jl. Kramat Raya No. 43 Jakarta"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="#e6e6e6"/>
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:paddingBottom="5dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="Deliver time"/>
-        <com.moresto.moresto.CustomText.MyCustomText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:layout_marginStart="20dp"
-            android:paddingBottom="5dp"
-            android:text="Now"/>
+    </RelativeLayout>
 
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText19"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Terima Order"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Tolak Order"/>
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Deliver to"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout12" />
 
-</LinearLayout>
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtDeliverTo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Jl. Kramat Raya No. 43 Jakarta"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText19" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#e6e6e6" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Deliver time"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout13" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtDeliverTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Now"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText21" />
+
+
+    <Button
+        android:id="@+id/btnTerimaOrder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGreen"
+        android:text="Terima Order"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDeliverTime" />
+
+    <Button
+        android:id="@+id/btnTolakOrder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:text="Tolak Order"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTerimaOrder" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcListView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout12"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="#e6e6e6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcListView" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout13"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="#e6e6e6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDeliverTo" />
+
+</android.support.constraint.ConstraintLayout>
+</ScrollView>

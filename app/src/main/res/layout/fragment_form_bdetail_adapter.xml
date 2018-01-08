@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    tools:context="com.moresto.moresto.Adapter.FormBDetailAdapter">
+
+    <TextView
+        android:id="@+id/txtJumlahPesanan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12 Pcs"/>
+    <TextView
+        android:layout_marginStart="10dp"
+        android:id="@+id/txtNamaPesanan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sendok Makan"/>
+</LinearLayout>

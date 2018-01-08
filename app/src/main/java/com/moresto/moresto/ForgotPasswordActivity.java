@@ -23,7 +23,7 @@ import retrofit2.Response;
 public class ForgotPasswordActivity extends AppCompatActivity {
     private final static String TAG = "ForgotPassword";
     EditText edEmail;
-    Button btnKirim;
+    Button btnKirim,btnCancel;
     ServiceAPI mServiceAPI;
     Type mType;
     Gson mGson;
@@ -38,7 +38,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }.getType();
         edEmail = (EditText) findViewById(R.id.forgotPswd);
         btnKirim = (Button) findViewById(R.id.btnKirim);
-
+        btnCancel = (Button) findViewById(R.id.btnCancel);
         btnKirim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,8 +50,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                         if(mLogin.isHasil())
                         {
+                            edEmail.setText("");
                             Toast.makeText(ForgotPasswordActivity.this, "Email Terkirim /n Silahkan Cek Email Anda.", Toast.LENGTH_LONG).show();
-                            ForgotPasswordActivity.super.onBackPressed();
+                           // ForgotPasswordActivity.super.onBackPressed();
                         }
                         else
                         {
@@ -64,6 +65,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         Log.i(TAG, "onFailure: "+t.toString());
                     }
                 });
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edEmail.setText("");
+                ForgotPasswordActivity.super.onBackPressed();
             }
         });
 

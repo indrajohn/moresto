@@ -1,75 +1,207 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relativeLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_moresto">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallPulseIndicator" />
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avi"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <com.moresto.moresto.CustomText.MyCustomText
+                android:id="@+id/txtError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Memuat Data..."
+                android:textColor="#fff"
+                android:textSize="19sp" />
+        </LinearLayout>
+    </RelativeLayout>
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_moresto"
     android:orientation="vertical"
-    android:background="@drawable/blue_moresto">
+    tools:layout_editor_absoluteY="81dp">
+
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Total Transaksi Hari ini"
         android:textColor="#fff"
-        android:text="Total Transaksi Hari ini"/>
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtTotalTransaksiHariIni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="24sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="14"
         android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="17"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText10" />
 
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/myCustomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="Total Transaksi Bulan ini"
         android:textColor="#fff"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTotalTransaksiHariIni" />
 
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtTotalTransaksiBulanIni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="24sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="35"
         android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="35"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText" />
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Total Komisi Bulan ini"
         android:textColor="#fff"
-        android:text="Total Komisi Bulan ini"/>
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTotalTransaksiBulanIni" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Data 3 transaksi terakhir hari ini"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCodeOk" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/asdasdas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Masukkan kode disini"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/myCustomText11"
+        app:layout_constraintStart_toStartOf="@+id/myCustomText11"
+        app:layout_constraintTop_toBottomOf="@+id/txtTotalKomisiBulanIni" />
+
+    <Button
+        android:id="@+id/btnCodeOk"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/colorGreen"
+        android:text="OK"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="@+id/edCode"
+        app:layout_constraintStart_toEndOf="@+id/edCode"
+        app:layout_constraintTop_toTopOf="@+id/edCode" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText12">
+
+    </android.support.v7.widget.RecyclerView>
+
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtTotalKomisiBulanIni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="24sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Rp. 3.500.000"
         android:textColor="#fff"
-        android:paddingBottom="50dp"
-        android:text="Rp. 3.500.000" />
-    <com.moresto.moresto.CustomText.MyCustomText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"
-        android:textColor="#fff"
-        android:layout_marginBottom="10dp"
-        android:text="Data 3 transaksi terakhir hari ini"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_margin="32dp"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:id="@+id/rc1">
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText11" />
 
-    </android.support.v7.widget.RecyclerView>
+    <EditText
+        android:id="@+id/edCode"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:ems="4"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/myCustomText12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/asdasdas"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>
 </LinearLayout>

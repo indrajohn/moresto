@@ -5,9 +5,16 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.moresto.moresto.BuildConfig;
+import com.moresto.moresto.Model.ItemFormB;
+import com.moresto.moresto.Model.ItemFormBTes;
+import com.moresto.moresto.Model.ItemFormBTesParent;
 import com.moresto.moresto.Model.Login;
 import com.moresto.moresto.Model.Profile;
 
+import org.json.JSONArray;
+import org.json.JSONStringer;
+
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -17,9 +24,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -47,20 +58,72 @@ public interface ServiceAPI {
 
     @FormUrlEncoded
     @POST("openclose.php")
-    Call<Object> getOpenClose(@Field("tokenid") String tokenid,@Field("koord_x") String koordinatX,
-                                @Field("koord_y") String koordinatY,@Field("openclose") String openclose);
+    Call<Object> updateOpenClose(@Field("tokenid") String tokenid,@Field("openclose") String openclose);
+
+    @FormUrlEncoded
+    @POST("openclose.php")
+    Call<Object> updateKoordinat(@Field("tokenid") String tokenid,@Field("koord_x") String koordinatX,
+                                 @Field("koord_y") String koordinatY,
+                                 @Field("alamat") String alamat);
+
+    @FormUrlEncoded
+    @POST("openclose.php")
+    Call<Object> getOpenClose(@Field("tokenid") String tokenid);
 
     @FormUrlEncoded
     @POST("profile.php")
     Call<Object> getProfile(@Field("tokenid") String tokenid);
 
+    @FormUrlEncoded
+    @POST("form_b_listmenu.php")
+    Call<Object> getFormB(@Field("tokenid") String tokenid,
+                          @Field("action") String action,
+                          @Field("page") String page);
+   //
+    /*@FormUrlEncoded
+    @POST("form_b_listmenu.php")
+    Call<Object> setFormBRequest(@Field("tokenid") String tokenid,
+                                 @Field("action") String action,
+                                 @Field("data") String data);*/
+   //@FormUrlEncoded
+   @POST("form_b_listmenu.php")
+   Call<Object> setFormBRequest(@Part("tokenid") String tokenid,
+                                @Part("action") String action,
+                                @Body String data);
+
+   @POST("form_b_listmenu.php")
+   Call<Object> setFormBRequestTest(@Body ItemFormBTesParent myItem);
+
+
+    @FormUrlEncoded
+    @POST("incomingorder.php")
+    Call<Object> getIncomingOrder(@Field("tokenid") String tokenid);
+
+    @FormUrlEncoded
+    @POST("incomingorder.php")
+    Call<Object> updateIncomingOrder(@Field("tokenid") String tokenid,
+                                     @Field("action") String action,
+                                     @Field("idtrans") String idTrans,
+                                     @Field("status") String status);
+
+    @FormUrlEncoded
+    @POST("listtransaksi.php")
+    Call<Object> getListTransaksi(@Field("tokenid") String tokenid,
+                                  @Field("action") String action,
+                                  @Field("page") String page);
+    @FormUrlEncoded
+    @POST("listtransaksi.php")
+    Call<Object> changeStatusTransaksi(@Field("tokenid") String tokenid,
+                                  @Field("idtrans") String idtrans,
+                                  @Field("status ") String status,
+                                       @Field("action") String action );
+    @FormUrlEncoded
+    @POST("partnercode.php")
+    Call<Object> getTokenDashboard(@Field("tokenid") String tokenid,
+                                   @Field("vcode") String vcode);
 
     class Factory {
         private static ServiceAPI service;
-        public static final String Path = BASE_URL;
-        public static final String FotoPath = BASE_URL + "images/wisata/";
-        public static final String FotoUserPath = BASE_URL + "images/user/";
-
         public static ServiceAPI getInstance(Context context) {
             if (service == null) {
                 OkHttpClient.Builder builder = new OkHttpClient.Builder();

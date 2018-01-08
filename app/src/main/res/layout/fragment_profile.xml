@@ -1,84 +1,218 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="50dp"
     android:background="@drawable/red_moresto"
-    tools:context="com.moresto.moresto.ProfileFragment">
+    >
+    <RelativeLayout
+        android:id="@+id/relativeLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallPulseIndicator" />
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avi"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <com.moresto.moresto.CustomText.MyCustomText
+                android:id="@+id/txtError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Memuat Data..."
+                android:textColor="#fff"
+                android:textSize="19sp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imgChangePassword"
+        android:layout_width="25dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/edit"
+        android:text="Password"
+        app:layout_constraintStart_toEndOf="@+id/myCustomText16"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailUserProfile" />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProfile"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ava_male"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtNamaUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Yoseph Indra John Saputra"
         android:textColor="#fff"
-        android:text="Yoseph Indra John Saputra"/>
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtEmailUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Indrajohn2@gmail.com"
         android:textColor="#fff"
-        android:text="Indrajohn2@gmail.com"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamaUserProfile" />
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Password"
         android:textColor="#fff"
-        android:text="Telepon"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailUserProfile" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtPassword11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="**********"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText16" />
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Telepon"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword11" />
+
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtTelpUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="085726830822"
         android:textColor="#fff"
-        android:text="085726830822"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText13" />
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Bergabung Sejak"
         android:textColor="#fff"
-        android:text="Bergabung Sejak"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelpUserProfile" />
+
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtBirthdayUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="04 Oktober 1992"
         android:textColor="#fff"
-        android:text="04 Oktober 1992"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText15" />
+
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/myCustomText14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Location"
         android:textColor="#fff"
-        android:text="Location"/>
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtBirthdayUserProfile" />
+
     <com.moresto.moresto.CustomText.MyCustomText
         android:id="@+id/txtLocationUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Jl Anyer 4 no 32"
         android:textColor="#fff"
-        android:text="Jl Anyer 4 no 32"/>
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCustomText14" />
+</android.support.constraint.ConstraintLayout>
 </LinearLayout>

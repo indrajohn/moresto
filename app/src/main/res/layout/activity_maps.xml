@@ -1,5 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent">
 
     <fragment
@@ -8,42 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true" >
+    </fragment>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#fff"
         android:id="@+id/linearLayout2">
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
             android:src="@drawable/marker_icon"
-            android:layout_marginEnd="20dp"/>
-        <EditText
+            android:layout_marginEnd="10dp"/>
+        <!--
+        <android.support.v7.widget.SearchView
+            android:id="@+id/edSearchLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:textColorHighlight="@color/colorPrimary"
+            android:singleLine="true"
+            android:iconifiedByDefault="false">
+        </android.support.v7.widget.SearchView>-->
 
+        <AutoCompleteTextView
+            android:id="@+id/edSearchLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:textColorHighlight="@color/colorPrimary"/>
+
+    </LinearLayout>
     <ImageView
         android:id="@+id/marker"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:src="@drawable/marker_icon" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnSetAddress"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"
         android:background="@color/com_facebook_blue"
+        android:layout_above="@+id/marker"
+        android:layout_centerHorizontal="true"
         android:text="Set Destination"
         android:textColor="#fff"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
+
 
 </RelativeLayout>
 

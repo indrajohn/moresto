@@ -10,6 +10,14 @@ public class Order {
     @SerializedName("order")
     @Expose
     private List<ItemOrder> order = null;
+    @SerializedName("noorder")
+    @Expose
+    private String noOrder;
+    @SerializedName("time")
+    @Expose
+    private String time;
+
+
 
     /**
      * No args constructor for use in serialization
@@ -22,11 +30,15 @@ public class Order {
      *
      * @param order
      * @param delivery
+     * @param noorder
+     * @param time
      */
-    public Order(String delivery, List<ItemOrder> order) {
+    public Order(String delivery, String noorder,String time,List<ItemOrder> order) {
         super();
         this.delivery = delivery;
         this.order = order;
+        this.noOrder = noorder;
+        this.time = time;
     }
 
     public String getDelivery() {
@@ -45,4 +57,19 @@ public class Order {
         this.order = order;
     }
 
+    public String getNoOrder() {
+        return noOrder;
+    }
+
+    public void setNoOrder(String noOrder) {
+        this.noOrder = noOrder;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

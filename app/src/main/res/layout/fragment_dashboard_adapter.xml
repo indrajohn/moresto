@@ -1,4 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:id="@+id/linlay1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -8,14 +14,24 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#000">
-    </RelativeLayout>
+    </RelativeLayout>noOrder
     <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/noOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:text="Order"/>
+
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/waktuOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:textSize="12sp"
+        android:text="Order"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcItemList"
         android:layout_width="wrap_content"
@@ -37,4 +53,14 @@
         android:layout_marginStart="20dp"
         android:paddingBottom="5dp"
         android:text="Jl. Kramat Raya No. 43 Jakarta"/>
+</LinearLayout>
+    <com.moresto.moresto.CustomText.MyCustomText
+        android:id="@+id/txtNoDataDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="Tidak Ada Order"/>
 </LinearLayout>
