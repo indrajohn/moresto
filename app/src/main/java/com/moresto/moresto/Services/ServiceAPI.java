@@ -122,6 +122,12 @@ public interface ServiceAPI {
     Call<Object> getTokenDashboard(@Field("tokenid") String tokenid,
                                    @Field("vcode") String vcode);
 
+    @FormUrlEncoded
+    @POST("notification_push.php")
+    Call<Object> insertFirebaseToken(@Field("tokenid") String tokenid,
+                                     @Field("firebase_token") String firebase_token,
+                                   @Field("action") String action);
+
     class Factory {
         private static ServiceAPI service;
         public static ServiceAPI getInstance(Context context) {

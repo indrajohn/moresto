@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -22,7 +23,8 @@ public class FcmMessagingServices extends FirebaseMessagingService {
     String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(FcmMessagingServices.this, MainActivity.class);
+        intent.putExtra("tes","messanging");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
 

@@ -4,11 +4,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.moresto.moresto"
+        applicationId "com.partner.moresto.id"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 11
-        versionName "11.38"
+        versionName "11.40"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,3 +51,4 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:11.8.0'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

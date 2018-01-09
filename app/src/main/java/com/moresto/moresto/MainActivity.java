@@ -71,8 +71,16 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        ChangeLayoutMain();
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if (b != null) {
+            Log.i(TAG, "onCreate: "+b.get("tes"));
+            IncomingOrderListFragment incomingOrderListFragment = new IncomingOrderListFragment();
+            ChangeLayout(incomingOrderListFragment);
+        }
+        else{
+            ChangeLayoutMain();
+        }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
@@ -84,7 +92,35 @@ public class MainActivity extends AppCompatActivity
         String login = sharedPreferences.getString("login", "");
         loginPreference =  mGson.fromJson(login, mType);
         navigationView.getMenu().findItem(R.id.nav_dashboard).setChecked(true);
+        FirebaseTokensControl();
         //enableExpandableList();
+    }
+    private void FirebaseTokensControl() {
+        SharedPreferences mSharedPreferences = getApplicationContext().getSharedPreferences(
+                getString(R.string.FCM_PREF), Context.MODE_PRIVATE
+        );
+
+        String token = mSharedPreferences.getString(getString(R.string.FCM_TOKEN),"");
+        Log.i(TAG, "FirebaseTokensControl: "+token);
+
+        if(!token.isEmpty()){
+            mServiceAPI.insertFirebaseToken(loginPreference.getTokenid(),token,"updatetoken").enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    String json = mGson.toJson(response.body());
+                    Log.i(TAG, "onResponse: "+json);
+                    Toast.makeText(MainActivity.this, "Success Created Firebase Token", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Log.i(TAG, "onFailure: "+t.toString());
+                }
+            });
+        }
+        else{
+            Toast.makeText(this, "Failed to get Token Firebase..\nPlease Try Again", Toast.LENGTH_SHORT).show();
+        }
     }
     private void prepareListData(List<String> listDataHeader, Map<String,
                 List<String>> listDataChild) {
